@@ -58,7 +58,7 @@ func For[T any]() (*Schema, error) {
 func ForType(t reflect.Type) (*Schema, error) {
 	// TODO: consider skipping incompatible fields, instead of failing.
 	seen := make(map[reflect.Type]bool)
-	s, err := forType(t, seen)
+	s, err := forType(t, seen, false)
 	if err != nil {
 		return nil, fmt.Errorf("ForType(%T): %w", t, err)
 	}
