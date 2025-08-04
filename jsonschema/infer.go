@@ -55,6 +55,16 @@ func For[T any]() (*Schema, error) {
 	return s, nil
 }
 
+func ForType(t reflect.Type) (*Schema, error) {
+	// TODO: consider skipping incompatible fields, instead of failing.
+	seen := make(map[reflect.Type]bool)
+	s, err := forType(t, seen)
+	if err != nil {
+		return nil, fmt.Errorf("ForType(%T): %w", t, err)
+	}
+	return s, nil
+}
+
 // ForLax behaves like [For], except that it ignores struct fields with invalid types instead of
 // returning an error. That allows callers to adjust the resulting schema using custom knowledge.
 // For example, an interface type where all the possible implementations are known
